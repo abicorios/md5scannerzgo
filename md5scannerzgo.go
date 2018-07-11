@@ -18,6 +18,10 @@ func p(s string) string {
 	fmt.Println(s)
 	return s
 }
+func pa(s []string) []string{
+	fmt.Println(s)
+	return s
+}
 func mymd5(xfile string) string {
 	f, err := os.Open(xfile)
 	if err != nil {
@@ -57,7 +61,7 @@ func mytype(ipath string) string {
 	}
 	return ytype
 }
-func myfiles(ipath string) string {
+func myfiles(ipath string) []string {
 	var result []string
 	files, err := ioutil.ReadDir(ipath)
 	if err != nil {
@@ -66,7 +70,7 @@ func myfiles(ipath string) string {
 	for _, f := range files {
 		result = append(result, f.Name())
 	}
-	return strings.Join(result, ",")
+	return result
 }
 func main() {
 	if len(os.Args) == 1 {
@@ -86,6 +90,6 @@ func main() {
 		p(mytype(os.Args[2]))
 	}
 	if os.Args[1] == "myfiles" {
-		p(myfiles(os.Args[2]))
+		pa(myfiles(os.Args[2]))
 	}
 }
