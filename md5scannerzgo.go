@@ -72,9 +72,24 @@ func myfiles(ipath string) []string {
 	}
 	return result
 }
+func readz(ipath string){
+	amyfiles:=myfiles(ipath)
+	lamyfiles:=len(amyfiles)
+	for i:=0;i<lamyfiles;i++ {
+	thisthing:=ipath+"\\"+amyfiles[i]
+	p(thisthing)
+	if(mytype(thisthing)=="file"){
+	p(mymd5(thisthing))
+}
+	if(mytype(thisthing)=="dir"){
+		readz(thisthing)
+	}
+}
+}
+
 func main() {
 	if len(os.Args) == 1 {
-		p("longpathgo.exe [myrmtree \"C:\\path\\to\\dir\\to\\remove\"|md5 \"C:\\path\\to\\file\"|mytype \"C:\\file\\of\\dir\\or\\archive\"|myfiles \"C:\\path\\to\\dir\"]")
+		p("longpathgo.exe [myrmtree \"C:\\path\\to\\dir\\to\\remove\"|md5 \"C:\\path\\to\\file\"|mytype \"C:\\file\\of\\dir\\or\\archive\"|myfiles \"C:\\path\\to\\dir\"|test \"C:\\some\\path\"]")
 		os.Exit(0)
 	}
 	if os.Args[1] == "myrmtree" {
@@ -91,5 +106,8 @@ func main() {
 	}
 	if os.Args[1] == "myfiles" {
 		pa(myfiles(os.Args[2]))
+	}
+	if os.Args[1]=="test" {
+		readz(os.Args[2])
 	}
 }
