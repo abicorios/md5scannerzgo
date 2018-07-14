@@ -77,10 +77,10 @@ func readz(ipath string) {
 	for _, i := range myfiles(ipath) {
 		thisthing := ipath + "\\" + i
 		p(thisthing)
-		if mytype(thisthing) == "file" {
+		switch mytype(thisthing) {
+		case "file":
 			p(mymd5(thisthing))
-		}
-		if mytype(thisthing) == "dir" {
+		case "dir":
 			readz(thisthing)
 		}
 	}
