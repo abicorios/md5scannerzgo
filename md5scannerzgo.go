@@ -98,7 +98,7 @@ func readz(ipath string) {
 }
 
 func main() {
-	mybuffer = "C:/Windows/Temp/md5utils"
+	mybuffer := "C:\\Windows\\Temp\\md5utils"
 	myexe("cmd", "/c", "dir", mybuffer)
 	myexe("7z", "--help")
 	if len(os.Args) <= 2 {
