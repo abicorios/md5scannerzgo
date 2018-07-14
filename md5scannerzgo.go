@@ -1,4 +1,5 @@
 package main
+
 import (
 	"crypto/md5"
 	"encoding/hex"
@@ -18,7 +19,7 @@ func p(s string) string {
 	fmt.Println(s)
 	return s
 }
-func pa(s []string) []string{
+func pa(s []string) []string {
 	fmt.Println(s)
 	return s
 }
@@ -72,17 +73,17 @@ func myfiles(ipath string) []string {
 	}
 	return result
 }
-func readz(ipath string){
-for _,i:=range myfiles(ipath) {
-thisthing:=ipath+"\\"+i
-	p(thisthing)
-	if(mytype(thisthing)=="file"){
-	p(mymd5(thisthing))
-}
-	if(mytype(thisthing)=="dir"){
-		readz(thisthing)
+func readz(ipath string) {
+	for _, i := range myfiles(ipath) {
+		thisthing := ipath + "\\" + i
+		p(thisthing)
+		if mytype(thisthing) == "file" {
+			p(mymd5(thisthing))
+		}
+		if mytype(thisthing) == "dir" {
+			readz(thisthing)
+		}
 	}
-}
 }
 
 func main() {
@@ -97,13 +98,13 @@ func main() {
 		}
 	}
 	switch os.Args[1] {
-	case "md5" :
+	case "md5":
 		p(mymd5(os.Args[2]))
-	case "mytype" :
+	case "mytype":
 		p(mytype(os.Args[2]))
-	case "myfiles" :
+	case "myfiles":
 		pa(myfiles(os.Args[2]))
-	case "test" :
+	case "test":
 		readz(os.Args[2])
 	}
 }
