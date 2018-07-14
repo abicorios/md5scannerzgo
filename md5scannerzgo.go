@@ -13,6 +13,8 @@ import (
 	"strings"
 )
 
+var mybuffer = "C:\\Windows\\Temp\\md5utils"
+
 func myexe(s ...string) {
 	pa(s)
 	app := s[0]
@@ -98,9 +100,6 @@ func readz(ipath string) {
 }
 
 func main() {
-	mybuffer := "C:\\Windows\\Temp\\md5utils"
-	myexe("cmd", "/c", "dir", mybuffer)
-	myexe("7z", "--help")
 	if len(os.Args) <= 2 {
 		p("longpathgo.exe [myrmtree \"C:\\path\\to\\dir\\to\\remove\"|md5 \"C:\\path\\to\\file\"|mytype \"C:\\file\\of\\dir\\or\\archive\"|myfiles \"C:\\path\\to\\dir\"|test \"C:\\some\\path\"]")
 		os.Exit(0)
