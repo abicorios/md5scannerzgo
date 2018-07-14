@@ -8,10 +8,21 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"regexp"
 	"strings"
 )
 
+func myexe(s ...string) {
+	pa(s)
+	app := s[0]
+	args := s[1:len(s)]
+	out, err := exec.Command(app, args...).Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s", out)
+}
 func myrmtree(imypath string) {
 	os.RemoveAll(imypath)
 }
@@ -87,6 +98,7 @@ func readz(ipath string) {
 }
 
 func main() {
+	myexe("7z", "--help")
 	if len(os.Args) <= 2 {
 		p("longpathgo.exe [myrmtree \"C:\\path\\to\\dir\\to\\remove\"|md5 \"C:\\path\\to\\file\"|mytype \"C:\\file\\of\\dir\\or\\archive\"|myfiles \"C:\\path\\to\\dir\"|test \"C:\\some\\path\"]")
 		os.Exit(0)
