@@ -73,10 +73,8 @@ func myfiles(ipath string) []string {
 	return result
 }
 func readz(ipath string){
-	amyfiles:=myfiles(ipath)
-	lamyfiles:=len(amyfiles)
-	for i:=0;i<lamyfiles;i++ {
-	thisthing:=ipath+"\\"+amyfiles[i]
+for _,i:=range myfiles(ipath) {
+thisthing:=ipath+"\\"+i
 	p(thisthing)
 	if(mytype(thisthing)=="file"){
 	p(mymd5(thisthing))
