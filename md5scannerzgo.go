@@ -15,9 +15,14 @@ import (
 
 var mybuffer = "C:\\Windows\\Temp\\md5utils"
 var gto string
+var result [][]string
 
 func inBuffer(s string) bool {
 	return strings.Contains(s, mybuffer)
+}
+func drop(x string, sep string) string {
+	ar := strings.Split(x, sep)
+	return strings.Join(ar[0:len(ar)-1], sep)
 }
 func myexe(s ...string) {
 	pa(s)
@@ -97,12 +102,26 @@ func readz(ipath string) {
 	for _, i := range myfiles(ipath) {
 		thisthing := ipath + "\\" + i
 		p(thisthing)
-		switch mytype(thisthing) {
+		imytype := mytype(thisthing)
+		switch imytype {
 		case "file":
-			p(mymd5(thisthing))
+			short := strings.Replace(ipath, mybuffer+"\\", "", 1)
+			m := mymd5(thisthing)
+			result = append(result, []string{short, i, m})
+			if inBuffer(thisthing) {
+				myrmtree(thisthing)
+			}
 		case "dir":
 			readz(thisthing)
+		//	if(inBuffer(thisthing)){myrmtree(thisthing)}
 		case "archive":
+			newpath := drop(thisthing, ".")
+			newpath = strings.Replace(newpath, os.Args[2], "", 1)
+			newpath = mybuffer + newpath
+			os.Mkdir(newpath, 0777)
+			myexe("7z", "x", thisthing, "-o"+newpath, "-aou")
+			readz(newpath)
+			myrmtree(newpath)
 
 		}
 	}
@@ -132,7 +151,11 @@ func main() {
 		readz(os.Args[2])
 	case "readz":
 		gto = os.Args[3]
-		readz(os.Args[2])
+		myfrom := os.Args[2]
+		result = append(result, []string{"path", "name", "md5"})
+		readz(myfrom)
+		fmt.Println(result)
+		//myrmtree(mybuffer)
 	case "isEmpty":
 		if isEmpty(os.Args[2]) {
 			p("true")
