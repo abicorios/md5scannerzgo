@@ -96,16 +96,14 @@ func main() {
 			p(os.Args[2] + " is deleted")
 		}
 	}
-	if os.Args[1] == "md5" {
+	switch os.Args[1] {
+	case "md5" :
 		p(mymd5(os.Args[2]))
-	}
-	if os.Args[1] == "mytype" {
+	case "mytype" :
 		p(mytype(os.Args[2]))
-	}
-	if os.Args[1] == "myfiles" {
+	case "myfiles" :
 		pa(myfiles(os.Args[2]))
-	}
-	if os.Args[1]=="test" {
+	case "test" :
 		readz(os.Args[2])
 	}
 }
