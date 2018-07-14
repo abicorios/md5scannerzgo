@@ -14,7 +14,11 @@ import (
 )
 
 var mybuffer = "C:\\Windows\\Temp\\md5utils"
+var gto string
 
+func inBuffer(s string) bool {
+	return strings.Contains(s, mybuffer)
+}
 func myexe(s ...string) {
 	pa(s)
 	app := s[0]
@@ -86,6 +90,9 @@ func myfiles(ipath string) []string {
 	}
 	return result
 }
+func isEmpty(s string) bool {
+	return len(myfiles(s)) == 0
+}
 func readz(ipath string) {
 	for _, i := range myfiles(ipath) {
 		thisthing := ipath + "\\" + i
@@ -95,13 +102,17 @@ func readz(ipath string) {
 			p(mymd5(thisthing))
 		case "dir":
 			readz(thisthing)
+		case "archive":
+
 		}
 	}
 }
 
 func main() {
+	myrmtree(mybuffer)
+	os.Mkdir(mybuffer, 0777)
 	if len(os.Args) <= 2 {
-		p("md5scannerzgo.exe [myrmtree \"C:\\path\\to\\dir\\to\\remove\"|md5 \"C:\\path\\to\\file\"|mytype \"C:\\file\\of\\dir\\or\\archive\"|myfiles \"C:\\path\\to\\dir\"|test \"C:\\some\\path\"]")
+		p("md5scannerzgo.exe [myrmtree \"C:\\path\\to\\dir\\to\\remove\"|md5 \"C:\\path\\to\\file\"|mytype \"C:\\file\\of\\dir\\or\\archive\"|myfiles \"C:\\path\\to\\dir\"|test \"C:\\some\\path\"|readz \"C:\\dir\\from\" \"C:\\dir\\to\"|isEmpty \"C:\\some\\dir\"]")
 		os.Exit(0)
 	}
 	if os.Args[1] == "myrmtree" {
@@ -119,5 +130,14 @@ func main() {
 		pa(myfiles(os.Args[2]))
 	case "test":
 		readz(os.Args[2])
+	case "readz":
+		gto = os.Args[3]
+		readz(os.Args[2])
+	case "isEmpty":
+		if isEmpty(os.Args[2]) {
+			p("true")
+		} else {
+			p("false")
+		}
 	}
 }
