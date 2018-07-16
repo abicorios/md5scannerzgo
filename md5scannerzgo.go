@@ -12,7 +12,6 @@ import (
 	"regexp"
 	"strings"
 )
-
 var mybuffer = "C:\\Windows\\Temp\\md5utils"
 var gto string
 var result [][]string
@@ -85,15 +84,15 @@ func mytype(ipath string) string {
 	return ytype
 }
 func myfiles(ipath string) []string {
-	var result []string
+	var result0 []string
 	files, err := ioutil.ReadDir(ipath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	for _, f := range files {
-		result = append(result, f.Name())
+		result0 = append(result0, f.Name())
 	}
-	return result
+	return result0
 }
 func isEmpty(s string) bool {
 	return len(myfiles(s)) == 0
@@ -121,8 +120,6 @@ func readz(ipath string) {
 			os.Mkdir(newpath, 0777)
 			myexe("7z", "x", thisthing, "-o"+newpath, "-aou")
 			readz(newpath)
-			myrmtree(newpath)
-
 		}
 	}
 }
@@ -148,14 +145,14 @@ func main() {
 	case "myfiles":
 		pa(myfiles(os.Args[2]))
 	case "test":
-		readz(os.Args[2])
+		//readz(os.Args[2])
 	case "readz":
 		gto = os.Args[3]
 		myfrom := os.Args[2]
 		result = append(result, []string{"path", "name", "md5"})
 		readz(myfrom)
 		fmt.Println(result)
-		//myrmtree(mybuffer)
+		fmt.Println(len(result))
 	case "isEmpty":
 		if isEmpty(os.Args[2]) {
 			p("true")
