@@ -24,7 +24,7 @@ func drop(x string, sep string) string {
 	return strings.Join(ar[0:len(ar)-1], sep)
 }
 func myexe(s ...string) {
-	pa(s)
+	p(s...)
 	app := s[0]
 	args := s[1:len(s)]
 	out, err := exec.Command(app, args...).Output()
@@ -36,13 +36,9 @@ func myexe(s ...string) {
 func myrmtree(imypath string) {
 	os.RemoveAll(imypath)
 }
-func p(s string) string {
+func p(s ...string) string {
 	fmt.Println(s)
-	return s
-}
-func pa(s []string) []string {
-	fmt.Println(s)
-	return s
+	return strings.Join(s," ")
 }
 func mymd5(xfile string) string {
 	f, err := os.Open(xfile)
@@ -143,7 +139,7 @@ func main() {
 	case "mytype":
 		p(mytype(os.Args[2]))
 	case "myfiles":
-		pa(myfiles(os.Args[2]))
+		p(myfiles(os.Args[2])...)
 	case "test":
 		//readz(os.Args[2])
 	case "readz":
