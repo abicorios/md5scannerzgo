@@ -124,7 +124,7 @@ func main() {
 	myrmtree(mybuffer)
 	os.Mkdir(mybuffer, 0777)
 	if len(os.Args) <= 2 {
-		p("md5scannerzgo.exe [myrmtree \"C:\\path\\to\\dir\\to\\remove\"|md5 \"C:\\path\\to\\file\"|mytype \"C:\\file\\of\\dir\\or\\archive\"|myfiles \"C:\\path\\to\\dir\"|test \"C:\\some\\path\"|readz \"C:\\dir\\from\" \"C:\\dir\\to\"|isEmpty \"C:\\some\\dir\"]")
+		p("md5scannerzgo.exe [myrmtree \"C:\\path\\to\\dir\\to\\remove\"|md5 \"C:\\path\\to\\file\"|mytype \"C:\\file\\of\\dir\\or\\archive\"|myfiles \"C:\\path\\to\\dir\"|readz \"C:\\dir\\from\" \"C:\\dir\\to\"|isEmpty \"C:\\some\\dir\"]")
 		os.Exit(0)
 	}
 	if os.Args[1] == "myrmtree" {
@@ -140,8 +140,6 @@ func main() {
 		p(mytype(os.Args[2]))
 	case "myfiles":
 		p(myfiles(os.Args[2])...)
-	case "test":
-		//readz(os.Args[2])
 	case "readz":
 		gto = os.Args[3]
 		myfrom := os.Args[2]
