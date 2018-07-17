@@ -36,7 +36,7 @@ func myexe(s ...string) {
 	app := s[0]
 	args := s[1:len(s)]
 	out, err := exec.Command(app, args...).Output()
-	checkError("Error: cannot run "+strs(s...),err)
+	checkError("Error: myexe cannot run "+strs(s...),err)
 	fmt.Printf("%s", out)
 }
 func myrmtree(imypath string) {
@@ -48,11 +48,11 @@ func p(s ...string) string {
 }
 func mymd5(xfile string) string {
 	f, err := os.Open(xfile)
-	checkError("Error: cannot open file "+xfile,err)
+	checkError("Error: mymd5 cannot open file "+xfile,err)
 	defer f.Close()
 	h := md5.New()
 	_, err2 := io.Copy(h, f)
-	checkError("Error: cannot calculate md5 for file "+xfile,err2)
+	checkError("Error: mymd5 cannot calculate md5 for file "+xfile,err2)
 	return strings.ToUpper(hex.EncodeToString(h.Sum(nil)))
 }
 func mytype(ipath string) string {
