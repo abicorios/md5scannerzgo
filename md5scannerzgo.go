@@ -11,11 +11,19 @@ import (
 	"os/exec"
 	"regexp"
 	"strings"
+	"encoding/csv"
 )
 var mybuffer = "C:\\Windows\\Temp\\md5utils"
 var gto string
 var result [][]string
-
+func checkError(message string, err error){
+	if err != nil {
+		log.Fatal(message,err)
+	}
+}
+func strs(s ...string)string{
+	return strings.Join(s," ")
+}
 func inBuffer(s string) bool {
 	return strings.Contains(s, mybuffer)
 }
@@ -28,9 +36,7 @@ func myexe(s ...string) {
 	app := s[0]
 	args := s[1:len(s)]
 	out, err := exec.Command(app, args...).Output()
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError("Error: cannot run "+strs(s...),err)
 	fmt.Printf("%s", out)
 }
 func myrmtree(imypath string) {
@@ -42,22 +48,17 @@ func p(s ...string) string {
 }
 func mymd5(xfile string) string {
 	f, err := os.Open(xfile)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError("Error: cannot open file "+xfile,err)
 	defer f.Close()
 	h := md5.New()
-	if _, err := io.Copy(h, f); err != nil {
-		log.Fatal(err)
-	}
+	_, err2 := io.Copy(h, f)
+	checkError("Error: cannot calculate md5 for file "+xfile,err2)
 	return strings.ToUpper(hex.EncodeToString(h.Sum(nil)))
 }
 func mytype(ipath string) string {
 	var ytype string
 	fi, err := os.Lstat(ipath)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError("Error: mytype cannot os.Lstat("+ipath+")",err)
 	switch mode := fi.Mode(); {
 	case mode.IsRegular():
 		ytype = "afile"
@@ -68,9 +69,7 @@ func mytype(ipath string) string {
 	}
 	if ytype == "afile" {
 		matched, err2 := regexp.MatchString(".*\\.(7z|zip|rar)$", ipath)
-		if err2 != nil {
-			log.Fatal(err2)
-		}
+		checkError("Error: mytype cannot regexp.MatchString(regex, "+ipath+")",err2)
 		if matched {
 			ytype = "archive"
 		} else {
@@ -82,9 +81,7 @@ func mytype(ipath string) string {
 func myfiles(ipath string) []string {
 	var result0 []string
 	files, err := ioutil.ReadDir(ipath)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError("Error: myfiles cannot ioutil.ReadDir("+ipath+")",err)
 	for _, f := range files {
 		result0 = append(result0, f.Name())
 	}
@@ -147,6 +144,16 @@ func main() {
 		readz(myfrom)
 		fmt.Println(result)
 		fmt.Println(len(result))
+		mycsv:=gto+"\\r.csv"
+		file,err:=os.Create(mycsv)
+		checkError("Error: main cannot os.Create("+mycsv+")",err)
+		defer file.Close()
+		writer:=csv.NewWriter(file)
+		defer writer.Flush()
+		for _,value:=range result {
+			err:=writer.Write(value)
+			checkError("Error: main cannot writer.Write("+strs(value...)+")",err)
+		}
 	case "isEmpty":
 		if isEmpty(os.Args[2]) {
 			p("true")
