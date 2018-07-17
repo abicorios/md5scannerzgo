@@ -12,7 +12,9 @@ import (
 	"regexp"
 	"strings"
 	"encoding/csv"
+	"time"
 )
+var gmylog string
 var mybuffer = "C:\\Windows\\Temp\\md5utils"
 var gto string
 var result [][]string
@@ -43,8 +45,10 @@ func myrmtree(imypath string) {
 	os.RemoveAll(imypath)
 }
 func p(s ...string) string {
-	fmt.Println(s)
-	return strings.Join(s," ")
+	s1:= strs(s...)
+	fmt.Println(s1)
+	gmylog=gmylog+s1+"\r\n"
+	return s1
 }
 func mymd5(xfile string) string {
 	f, err := os.Open(xfile)
@@ -144,7 +148,8 @@ func main() {
 		readz(myfrom)
 		fmt.Println(result)
 		fmt.Println(len(result))
-		mycsv:=gto+"\\r.csv"
+		amyfrom:=strings.Split(myfrom,"\\")
+		mycsv:=gto+"\\"+amyfrom[len(amyfrom)-1]+" ("+time.Now().Format("02.01.2006")+").csv"
 		file,err:=os.Create(mycsv)
 		checkError("Error: main cannot os.Create("+mycsv+")",err)
 		defer file.Close()
@@ -154,6 +159,10 @@ func main() {
 			err:=writer.Write(value)
 			checkError("Error: main cannot writer.Write("+strs(value...)+")",err)
 		}
+		mylog:=gto+"\\mylog.txt"
+		d:=[]byte(gmylog)
+		fmt.Println(gmylog)
+		ioutil.WriteFile(mylog,d,0777)
 	case "isEmpty":
 		if isEmpty(os.Args[2]) {
 			p("true")
