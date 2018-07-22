@@ -1,3 +1,4 @@
 *.swp
 *~
 *.exe
+!/7z1805-extra/**/*.exe
