@@ -15,7 +15,7 @@ import (
 	"time"
 	"path/filepath"
 )
-
+var dir string
 var gmylog string
 var mybuffer = "C:\\Windows\\Temp\\md5utils"
 var gto string
@@ -118,7 +118,7 @@ func readz(ipath string) {
 			newpath = strings.Replace(newpath, os.Args[2], "", 1)
 			newpath = mybuffer + newpath
 			os.Mkdir(newpath, 0777)
-			myexe("7z", "x", thisthing, "-o"+newpath, "-aou")
+			myexe(dir+"\\7z1805-extra\\7za", "x", thisthing, "-o"+newpath, "-aou")
 			readz(newpath)
 		}
 	}
