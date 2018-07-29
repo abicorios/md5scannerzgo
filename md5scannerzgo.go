@@ -125,7 +125,7 @@ func readz(ipath string) {
 }
 
 func main() {
-	dir,_:=filepath.Abs(filepath.Dir(os.Args[0]))
+	dir,_=filepath.Abs(filepath.Dir(os.Args[0]))
 	//fmt.Println(dir)
 	myrmtree(mybuffer)
 	os.Mkdir(mybuffer, 0777)
