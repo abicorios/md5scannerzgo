@@ -19,6 +19,7 @@ var dir string
 var gmylog string
 var mybuffer = "C:\\Windows\\Temp\\md5utils"
 var gto string
+var myfrom string
 var result [][]string
 
 func checkError(message string, err error) {
@@ -105,6 +106,7 @@ func readz(ipath string) {
 		switch imytype {
 		case "file":
 			short := strings.Replace(ipath, mybuffer+"\\", "", 1)
+			short = strings.Replace(short,myfrom+"\\","",1)
 			m := mymd5(thisthing)
 			result = append(result, []string{short, i, m})
 			if inBuffer(thisthing) {
@@ -148,7 +150,7 @@ func main() {
 		p(myfiles(os.Args[2])...)
 	case "readz":
 		gto = os.Args[3]
-		myfrom := os.Args[2]
+		myfrom = os.Args[2]
 		result = append(result, []string{"path", "name", "md5"})
 		readz(myfrom)
 		amyfrom := strings.Split(myfrom, "\\")
